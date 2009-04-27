@@ -7,11 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 
 import net.jodybrewster.ant.exceptions.FlashException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+
+import com.sun.jndi.toolkit.url.Uri;
 
 
 /**
@@ -28,6 +31,7 @@ import org.apache.tools.ant.Task;
  */
 public class Movie extends Task {
 	
+	private String _flashApp;
 	private static final String TEMP_DIR = "tmp_flashcommand";
 	private static final String JSFL_FILE = "temp.jsfl";
 	private String BASE_DIR = "";
@@ -51,8 +55,11 @@ public class Movie extends Task {
 		if (_verbose)
 			System.out.println("Movie export=" + _export + " source=" + _source + " output" + _output);
 		
+		
+		
 		BASE_DIR = this.getLocation().toString().split("build.xml")[0];
 		_logFile = BASE_DIR + _logFile;
+		_logFile = _logFile.replace('\\', '/');
 		
 		if (_verbose)
 			System.out.println("BASE_DIR=" + BASE_DIR);
@@ -92,6 +99,7 @@ public class Movie extends Task {
 		if (_verbose)
 			System.out.println("Creating jsfl: " + BASE_DIR + TEMP_DIR + File.separator + JSFL_FILE);
 			
+		
 		FileWriter stream = new FileWriter(BASE_DIR + TEMP_DIR + File.separator + JSFL_FILE);
 		BufferedWriter out = new BufferedWriter(stream);
 		out.write("var sourceFile = \"file:///" + _source + "\";");
@@ -164,8 +172,15 @@ public class Movie extends Task {
 		if (_verbose)
 			System.out.println("Running the script");
 		 
-        String[] command = new String[]{"osascript", "-e", "tell app \"" + getFlashVersionName() + "\" to open posix file \""+ BASE_DIR + TEMP_DIR + File.separator + JSFL_FILE +"\""};
-        
+		String[] command = new String[]{};
+		if (_flashApp != null && _flashApp.length() > 0)
+		{
+			command = new String[]{ _flashApp, BASE_DIR + TEMP_DIR + File.separator + JSFL_FILE };
+		}
+		else
+		{
+			command = new String[]{"osascript", "-e", "tell app \"" + getFlashVersionName() + "\" to open posix file \""+ BASE_DIR + TEMP_DIR + File.separator + JSFL_FILE +"\""};
+		}
         
         Process result = Runtime.getRuntime().exec(command);
         result.waitFor();
@@ -331,6 +346,14 @@ public class Movie extends Task {
 	}
 	
 	/**
+	 * sets the flash exe for windows
+	 * @param path to the flash executable
+	 */
+	public void setFlashApp(String x)
+	{
+		_flashApp = x;
+	}
+	/**
 	 * closes the flash application after complete
 	 * 
 	 * @param true or false
@@ -387,11 +410,11 @@ public class Movie extends Task {
 	
 	public void setSource(String x)
 	{
-		_source = x;
+		_source = x.replace('\\', '/');
 	}
 	
 	public void setOutput(String x)
 	{
-		_output = x;
+		_output = x.replace('\\', '/');
 	}
 }

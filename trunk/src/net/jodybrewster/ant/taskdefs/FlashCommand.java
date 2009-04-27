@@ -18,6 +18,7 @@ public class FlashCommand extends Task {
 	
 	private String TEMP_DIR = "tmp_flashcommand";
 	
+	private String _flashApp;
 	private List<Movie> _movies = new ArrayList<Movie>();
 	private Boolean _failOnError = false;
 	private Boolean _logError = false;
@@ -91,7 +92,7 @@ public class FlashCommand extends Task {
 	{
 		f.setVerbose(_verbose);
 		f.setVersion(_flashVersion);
-		
+		f.setFlashApp(_flashApp);
 		_movies.add(f);
 	}
 	
@@ -105,7 +106,10 @@ public class FlashCommand extends Task {
 		_logError = x;
 	}
 	
-
+	public void setFlashApp(String x)
+	{
+		_flashApp = x;
+	}
 	
 	public void setVerbose(Boolean x)
 	{
