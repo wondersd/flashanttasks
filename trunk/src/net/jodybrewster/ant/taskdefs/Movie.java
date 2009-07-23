@@ -155,6 +155,9 @@ public class Movie extends Task {
 	        out.write("fl.quit(false);");
 	        out.newLine();
 	    }
+	    
+	    out.write( "fl.compilerErrors.clear();");
+	    out.newLine();
 	   
 		out.close();
 		
@@ -312,11 +315,12 @@ public class Movie extends Task {
 	private String getFlashVersionName()
 	{
 		String v;
-		if (_version == "CS4")
+		
+		if (_version.equals( "CS4" ) )
 		{
 			v = "Adobe Flash CS4";
 		}
-		else if (_version == "CS3")
+		else if (_version.equals( "CS3" ) )
 		{
 			v = "Adobe Flash CS3";
 		}

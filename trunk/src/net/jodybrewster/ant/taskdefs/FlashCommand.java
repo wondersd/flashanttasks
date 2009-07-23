@@ -119,7 +119,7 @@ public class FlashCommand extends Task {
 	
 	public void setFlashversion(String x)
 	{
-		if (x.toUpperCase() != "CS4" || x.toUpperCase() != "CS3")
+		if ( !x.toUpperCase().equals( "CS4" ) && !x.toUpperCase().equals( "CS3" ) )
 			x = "flash";
 			
 		_flashVersion = x.toUpperCase();
