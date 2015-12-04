@@ -315,8 +315,15 @@ public class Movie extends Task {
 	private String getFlashVersionName()
 	{
 		String v;
-		
-		if (_version.equals( "CS4" ) )
+		if (_version.equals( "CS6" ) )
+		{
+			v = "Adobe Flash CS6";
+		}
+		if (_version.equals( "CS5" ) )
+		{
+			v = "Adobe Flash CS5";
+		}
+		else if (_version.equals( "CS4" ) )
 		{
 			v = "Adobe Flash CS4";
 		}
