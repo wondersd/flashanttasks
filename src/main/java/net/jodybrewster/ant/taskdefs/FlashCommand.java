@@ -127,4 +127,9 @@ public class FlashCommand extends Task {
 			
 		_flashVersion = x.toUpperCase();
 	}
+	
+	public String getFlashVersion()
+	{
+		return _flashVersion;
+	}
 }

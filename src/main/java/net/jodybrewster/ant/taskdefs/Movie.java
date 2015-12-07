@@ -184,6 +184,15 @@ public class Movie extends Task {
 		{
 			command = new String[]{"osascript", "-e", "tell app \"" + getFlashVersionName() + "\" to open posix file \""+ BASE_DIR + TEMP_DIR + File.separator + JSFL_FILE +"\""};
 		}
+		
+		if(_verbose)
+		{
+			System.out.print("Executing: ");
+			for (String commandPart : command) {
+				System.out.print(commandPart+" ");
+			}
+			System.out.println();
+		}
         
         Process result = Runtime.getRuntime().exec(command);
         result.waitFor();
@@ -312,14 +321,14 @@ public class Movie extends Task {
 	 * 
 	 * @return the flash version name
 	 */
-	private String getFlashVersionName()
+	public String getFlashVersionName()
 	{
 		String v;
 		if (_version.equals( "CS6" ) )
 		{
 			v = "Adobe Flash CS6";
 		}
-		if (_version.equals( "CS5" ) )
+		else if (_version.equals( "CS5" ) )
 		{
 			v = "Adobe Flash CS5";
 		}
